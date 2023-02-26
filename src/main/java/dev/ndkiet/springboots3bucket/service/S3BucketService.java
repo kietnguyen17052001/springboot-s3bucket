@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -49,9 +50,14 @@ public class S3BucketService {
         s3Client.deleteObject(bucketName, fileName);
     }
 
-    public File transferMultipartFile2File(MultipartFile multipartFile) throws IOException {
+    public File transferMultipartFile2File(MultipartFile multipartFile) {
         File convertedFile = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-        multipartFile.transferTo(convertedFile);
+//        multipartFile.transferTo(convertedFile);
+        try (FileOutputStream fileOutputStream = new FileOutputStream(convertedFile)) {
+            fileOutputStream.write(multipartFile.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return convertedFile;
     }
 }
