@@ -1,0 +1,17 @@
+server:
+  port: 6969
+
+spring:
+  application:
+    name: springboot-s3bucket
+
+  cloud:
+    aws:
+      region:
+        static: ${REGION}
+      credentials:
+        accessKey: ${ACCESS_KEY_AWS}
+        secretKey: ${SECRET_KEY_AWS}
+
+  s3:
+    bucket-name: ${BUCKET_NAME}
